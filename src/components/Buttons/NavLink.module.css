@@ -1,0 +1,20 @@
+.navLink {
+    color: #fff;
+    position: relative;
+    display: inline-block;
+    transition: 0.2s ease all;
+    cursor: pointer;
+}
+
+.navLink::after {
+    width: 100%;
+    display: block;
+    content: "";
+    border-bottom: solid 2px #fff;
+    transform: scaleX(0);
+    transition: transform 250ms ease-in-out;
+}
+
+.navLink:hover::after {
+    transform: scaleX(1);
+}

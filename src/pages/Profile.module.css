@@ -1,0 +1,11 @@
+.profileBtn {
+    transition: 0.4s ease all;
+}
+
+.profileBtn:hover {
+    background: white;
+}
+
+.profileBtn:hover * {
+    color: black;
+}

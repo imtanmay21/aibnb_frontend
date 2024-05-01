@@ -1,0 +1,1 @@
+export const baseUrl = "https://440d1f62-1acb-4a7a-ad8d-1c6ba6feaa87-dev.e1-us-east-azure.choreoapis.dev/aibnbbackend/backend/aibnb-api-be2/v1.0"
