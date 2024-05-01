@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import ShowcaseContainer from "../components/Utilities/ShowcaseContainer";
-import ShowCaseImage from "../assets/manhattan.jpg";
 import SignupForm from "../components/AuthForms/SignupForm";
 import LoginForm from "../components/AuthForms/LoginForm";
 import Logo from "../assets/logo.jpg";
 import ResetPasswordForm from "../components/AuthForms/ResetPasswordForm";
-import { authQueries } from "../api/authQueries";
 
 function Auth() {
     const { token } = useParams();
@@ -29,7 +27,7 @@ function Auth() {
             <ShowcaseContainer>
                 <div className="flex flex-col h-[100%]">
                     <div className="h-10 flex flex-row items-center justify-end space-x-2 ">
-                        <img src={Logo} className="h-[100%]" />
+                        <img alt="logo" src={Logo} className="h-[100%]" />
                         <span className="font-[arizonia] text-2xl text-white">
                             AiBnB
                         </span>

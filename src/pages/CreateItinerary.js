@@ -220,7 +220,7 @@ function CreateItinerary() {
 
                             {/* Form Showcase Image */}
                             <div className="flex flex-1 flex-col">
-                                <img src={BeachShowcase} />
+                                <img  alt="beach" src={BeachShowcase} />
                             </div>
                         </div>
                     </div>

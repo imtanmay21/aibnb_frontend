@@ -6,7 +6,7 @@ function TripCard({ imgSource, tripName }) {
         <div className="rounded-lg relative h-[300px] flex flex-col space-y-3 cursor-pointer">
             {/* Background Image of the  card*/}
             <div className="flex-1">
-                <img src={imgSource} className="rounded-lg h-[300px]" />
+                <img alt="trip" src={imgSource} className="rounded-lg h-[300px]" />
             </div>
             {/* Label name */}
             <div className="flex flex-row items-center justify-center space-x-3">

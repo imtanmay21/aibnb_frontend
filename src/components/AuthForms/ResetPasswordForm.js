@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { authQueries } from "../../api/authQueries";
 import LargeHeading from "../Texts/LargeHeading";
@@ -9,9 +8,6 @@ import Button from "../Buttons/Button";
 function ResetPasswordForm() {
     // STATES
     const [email, setEmail] = useState("");
-
-    // HOOKS
-    const navigate = useNavigate();
 
     // Function to send reset password email
     const sendResetPasswordEmail = async () => {

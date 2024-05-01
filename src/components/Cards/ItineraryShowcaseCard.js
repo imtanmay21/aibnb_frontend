@@ -1,6 +1,5 @@
 import React from "react";
 import LargeHeading from "../Texts/LargeHeading";
-import Button from "../Buttons/Button";
 
 const DayCardDetail = ({ label, value }) => (
     <div>

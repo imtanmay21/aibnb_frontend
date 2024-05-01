@@ -1,6 +1,6 @@
 import classes from "./Profile.module.css";
 import { ArrowRightIcon, UserCircleIcon } from "@heroicons/react/24/outline";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -32,7 +32,7 @@ function Profile() {
     );
 
     // function to fetch profile data
-    const fetchProfileData = async () => {
+    const fetchProfileData = useCallback(async () => {
         // invoke a api call to get profile data
         await authQueries.getProfile(accessToken, dispatch);
 
@@ -42,7 +42,7 @@ function Profile() {
         );
 
         setItineraries(itineraries);
-    };
+    }, [accessToken, dispatch]);
 
     // function to navigate to itinerary page
     const handleItineraryClick = (itineraryId) => {
@@ -58,7 +58,7 @@ function Profile() {
     // Get user information on load
     useEffect(() => {
         fetchProfileData();
-    }, []);
+    }, [fetchProfileData]);
 
     return (
         <div className="h-[100vh] overflow-hidden bg-black">

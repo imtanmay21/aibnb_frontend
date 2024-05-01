@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -14,7 +14,6 @@ function SignupForm({ showLoginForm, token }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [phone, setPhone] = useState("12345");
 
     // HOOKS
     const dispatch = useDispatch();
@@ -34,7 +33,7 @@ function SignupForm({ showLoginForm, token }) {
                 lastName: lastName,
                 password: password,
                 confirmPassword: confirmPassword,
-                phone: phone,
+                phone: "123456",
             })
         );
     };
@@ -49,13 +48,11 @@ function SignupForm({ showLoginForm, token }) {
     };
 
     // function to register user
-    const registerUser = async () => {
+    const registerUser = useCallback(async () => {
         // get user data
         const userDataString = localStorage.getItem("userData");
         // parse the json string
         const userData = JSON.parse(userDataString);
-
-        console.log("user data", userData);
 
         const isUserRegistered = await authQueries.registerUser(
             userData.email,
@@ -74,13 +71,13 @@ function SignupForm({ showLoginForm, token }) {
             // reset all states
             resetStates();
         }
-    };
+    }, [dispatch, navigate]);
 
     useEffect(() => {
         if (token) {
             registerUser();
         }
-    }, []);
+    }, [registerUser, token]);
 
     return (
         <div className="space-y-7 flex flex-col w-[50%]">

@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { authQueries } from "../../api/authQueries";
 import Logo from "../../assets/logo.jpg";
@@ -32,8 +32,6 @@ function Navbar() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    // get auth token from redux
-    const { access_token } = useSelector((state) => state.UserReducer);
 
     const handleLogout = () => {
         authQueries.logoutUser(dispatch);
@@ -47,7 +45,7 @@ function Navbar() {
                 {/* Nav brand */}
                 <div className="flex flex-row items-center space-x-3">
                     <div className="bg-white rounded-full">
-                        <img src={Logo} className="h-[40px] w-[40px]" />
+                        <img alt="logo" src={Logo} className="h-[40px] w-[40px]" />
                     </div>
                     <h1 className="text-3xl text-white font-bold font-[arizonia]">
                         AiBnB
