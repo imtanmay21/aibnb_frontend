@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import TextBox from "../Inputs/TextBox";
@@ -14,14 +13,12 @@ function LoginForm({ showLoginForm, showResetPasswordForm }) {
 
     // HOOKS
     const navigate = useNavigate();
-    const dispatch = useDispatch();
 
     // function to login user
     const onLogin = async () => {
         const isUserLoggedIn = await authQueries.loginUser(
             email,
             password,
-            dispatch
         );
 
         // if user is logged in

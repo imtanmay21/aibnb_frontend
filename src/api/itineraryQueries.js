@@ -1,5 +1,6 @@
 import axios from "axios";
 import { baseUrl } from "./baseUrl";
+import { cacheQueries } from "./cacheQueries";
 
 // function to calcualte days between the start date and the end date
 const calculateDays = (startDate, endDate) => {
@@ -32,8 +33,7 @@ export const itineraryQueries = {
         endDate,
         guests,
         budget,
-        preferences,
-        accessToken
+        preferences
     ) => {
         // get the total number of days to create the itinerary for
         const days = calculateDays(startDate, endDate);
@@ -57,7 +57,7 @@ export const itineraryQueries = {
                 itineraryInputData,
                 {
                     headers: {
-                        Authorization: `Bearer ${accessToken}`,
+                        Authorization: `Bearer ${cacheQueries.getAccessToken()}`,
                     },
                 }
             );
@@ -76,7 +76,7 @@ export const itineraryQueries = {
     },
 
     // save itinerary
-    saveItinerary: async (itineraryCreated, accessToken) => {
+    saveItinerary: async (itineraryCreated) => {
         // post the itinerary created
         try {
             await axios.post(
@@ -87,7 +87,7 @@ export const itineraryQueries = {
                 },
                 {
                     headers: {
-                        Authorization: `Bearer ${accessToken}`,
+                        Authorization: `Bearer ${cacheQueries.getAccessToken()}`,
                     },
                 }
             );
@@ -97,14 +97,14 @@ export const itineraryQueries = {
     },
 
     // get all itineraries
-    getAllItineraries: async (accessToken) => {
+    getAllItineraries: async () => {
         // get itineraries of the user
         try {
             const response = await axios.get(
                 `${baseUrl}/itinerary/get-user-itineraries/`,
                 {
                     headers: {
-                        Authorization: `Bearer ${accessToken}`,
+                        Authorization: `Bearer ${cacheQueries.getAccessToken()}`,
                     },
                 }
             );
@@ -119,7 +119,7 @@ export const itineraryQueries = {
     },
 
     // get itinerary by id
-    getItineraryById: async (id, accessToken) => {
+    getItineraryById: async (id) => {
         // create a axios get request to get itinerary
         try {
             // get response
@@ -127,7 +127,7 @@ export const itineraryQueries = {
                 `${baseUrl}/itinerary/get-user-itineraries/?ids=${id}`,
                 {
                     headers: {
-                        Authorization: `Bearer ${accessToken}`,
+                        Authorization: `Bearer ${cacheQueries.getAccessToken()}`,
                     },
                 }
             );
@@ -149,8 +149,7 @@ export const itineraryQueries = {
     },
 
     // update itinerary
-    updateItinerary: async (id, accessToken, isPublic, itinerary) => {
-
+    updateItinerary: async (id, isPublic, itinerary) => {
         // create a axios request to update the itinerary with respect to id
         try {
             await axios.put(
@@ -163,12 +162,15 @@ export const itineraryQueries = {
                 },
                 {
                     headers: {
-                        Authorization: `Bearer ${accessToken}`,
+                        Authorization: `Bearer ${cacheQueries.getAccessToken()}`,
                     },
                 }
             );
         } catch (error) {
-            console.error("Error while updating itinerary", error.response || error);
+            console.error(
+                "Error while updating itinerary",
+                error.response || error
+            );
         }
     },
 
@@ -176,15 +178,16 @@ export const itineraryQueries = {
     getPublicItineraries: async () => {
         // create a axios get request to get public itineraries
         try {
-            const response = await axios.get(`${baseUrl}/itinerary/get-public-itineraries/`);
+            const response = await axios.get(
+                `${baseUrl}/itinerary/get-public-itineraries/`
+            );
 
             // unpack the response
             const itineraries = response.data.data;
 
             return itineraries;
-
         } catch (error) {
-            console.error("Error while fetching public itineraries", error)
+            console.error("Error while fetching public itineraries", error);
         }
     },
 
@@ -192,7 +195,10 @@ export const itineraryQueries = {
     deleteItinerary: async () => {
         try {
         } catch (error) {
-            console.error("Something went wrong while deleting itinerary", error)
+            console.error(
+                "Something went wrong while deleting itinerary",
+                error
+            );
         }
-    }
+    },
 };

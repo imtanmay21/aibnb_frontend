@@ -1,6 +1,7 @@
 import axios from "axios";
 import { baseUrl } from "./baseUrl";
 import { userActionTypes } from "../store/UserReducer/UserActionTypes";
+import { cacheQueries } from "./cacheQueries";
 
 // Object for handling auth queries
 export const authQueries = {
@@ -12,7 +13,6 @@ export const authQueries = {
         firstName,
         lastName,
         phone,
-        dispatch
     ) => {
         // user data to be sent (request body)
         const userData = {
@@ -32,17 +32,10 @@ export const authQueries = {
             );
             // unpack access token and refresh token
             const { access, refresh } = response.data.data.token;
-            // set access and refresh token to the user auth store
-            dispatch({
-                type: userActionTypes.SET_ACCESS_TOKEN,
-                payload: { accessToken: access },
-            });
-            dispatch({
-                type: userActionTypes.SET_REFRESH_TOKEN,
-                payload: { refreshToken: refresh },
-            });
 
-            //
+            // set access and refresh token to local storage
+            localStorage.setItem("access_token", access);
+            localStorage.setItem("refresh_token", refresh);
 
             // return true to indicate that user has registered succesfully
             return true;
@@ -52,7 +45,7 @@ export const authQueries = {
     },
 
     // login user
-    loginUser: async (email, password, dispatch) => {
+    loginUser: async (email, password) => {
         // user data to be sent (request body)
         const userData = {
             email: email,
@@ -67,15 +60,10 @@ export const authQueries = {
             );
             // unpack the access and refresh token
             const { access, refresh } = response.data.token;
-            // set access and refresh token to the user auth store
-            dispatch({
-                type: userActionTypes.SET_ACCESS_TOKEN,
-                payload: { accessToken: access },
-            });
-            dispatch({
-                type: userActionTypes.SET_REFRESH_TOKEN,
-                payload: { refreshToken: refresh },
-            });
+
+            // set access and refresh token to local storage
+            localStorage.setItem("access_token", access);
+            localStorage.setItem("refresh_token", refresh);
 
             // return true to indicate that user has logged in succesfully
             return true;
@@ -85,13 +73,13 @@ export const authQueries = {
     },
 
     // get profile
-    getProfile: async (accessToken, dispatch) => {
+    getProfile: async (dispatch) => {
         // If profile data is not present in redux
         try {
             // pass the access token in the authorization header
             const response = await axios.get(`${baseUrl}/auth/profile/`, {
                 headers: {
-                    Authorization: `Bearer ${accessToken}`,
+                    Authorization: `Bearer ${cacheQueries.getAccessToken()}`,
                 },
             });
 
@@ -135,6 +123,7 @@ export const authQueries = {
             await axios.post(`${baseUrl}/auth/verify-user/`, {
                 email: email,
             });
+            alert("Check your email for further verification");
         } catch (error) {
             console.log("Error while sending email for verification", error);
         }
@@ -144,28 +133,26 @@ export const authQueries = {
     resetPassword: async (newPassword, accessToken, uid) => {
         // create a post request to reset the password
         try {
-            console.log(newPassword, accessToken, uid)
-
             await axios.post(
                 `${baseUrl}/auth/reset-password/${uid}/${accessToken}/`,
                 {
                     password: newPassword,
                     password2: newPassword,
-                },
+                }
             );
         } catch (error) {
             console.log("error", error);
         }
     },
     // function to delete user
-    deleteUser: async (accessToken) => {
+    deleteUser: async () => {
         try {
             await axios.post(
                 `${baseUrl}/auth/delete-user/`,
                 {},
                 {
                     headers: {
-                        Authorization: `Bearer ${accessToken}`,
+                        Authorization: `Bearer ${cacheQueries.getAccessToken()}`,
                     },
                 }
             );

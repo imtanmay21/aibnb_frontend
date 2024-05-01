@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
@@ -15,7 +14,6 @@ import Loader from "../components/Utilities/Loader";
 import ItineraryShowcaseCard from "../components/Cards/ItineraryShowcaseCard";
 
 function CreateItinerary() {
-    const { accessToken } = useSelector((state) => state.UserReducer);
 
     // STATES
     const [location, setLocation] = useState("");
@@ -29,7 +27,6 @@ function CreateItinerary() {
     const [itineraryCreated, setItineraryCreated] = useState(null);
 
     // HOOKS
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     // function to create itinerary
@@ -45,8 +42,6 @@ function CreateItinerary() {
             guests,
             budget,
             preferences,
-            accessToken,
-            dispatch
         );
 
         if (itinerary) {
@@ -79,7 +74,7 @@ function CreateItinerary() {
     // function to save itinerary
     const saveItinerary = async () => {
         // succesfully save itinerary
-        await itineraryQueries.saveItinerary(itineraryCreated, accessToken);
+        await itineraryQueries.saveItinerary(itineraryCreated);
 
         // remove the itinerary created state
         setItineraryCreated(null);

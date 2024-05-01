@@ -27,22 +27,18 @@ function Profile() {
     const navigate = useNavigate();
 
     // Get user acess and refresh token
-    const { accessToken, profileData } = useSelector(
-        (state) => state.UserReducer
-    );
+    const { profileData } = useSelector((state) => state.UserReducer);
 
     // function to fetch profile data
     const fetchProfileData = useCallback(async () => {
         // invoke a api call to get profile data
-        await authQueries.getProfile(accessToken, dispatch);
+        await authQueries.getProfile(dispatch);
 
         // get the itineraries for the user
-        const itineraries = await itineraryQueries.getAllItineraries(
-            accessToken
-        );
+        const itineraries = await itineraryQueries.getAllItineraries();
 
         setItineraries(itineraries);
-    }, [accessToken, dispatch]);
+    }, [dispatch]);
 
     // function to navigate to itinerary page
     const handleItineraryClick = (itineraryId) => {
@@ -51,7 +47,7 @@ function Profile() {
 
     // function to delete account
     const deleteAccount = async () => {
-        await authQueries.deleteUser(accessToken);
+        await authQueries.deleteUser();
         navigate("/");
     };
 

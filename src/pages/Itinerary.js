@@ -1,16 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { itineraryQueries } from "../api/itineraryQueries";
-import { useSelector } from "react-redux";
 import ShowcaseContainer from "../components/Utilities/ShowcaseContainer";
 import ItineraryShowcaseCard from "../components/Cards/ItineraryShowcaseCard";
 import Navbar from "../components/Utilities/Navbar";
 import Button from "../components/Buttons/Button";
 
 function Itinerary() {
-    // get access token
-    const { accessToken } = useSelector((state) => state.UserReducer);
-
     // get route parameters
     const { id } = useParams();
 
@@ -23,20 +19,16 @@ function Itinerary() {
 
     // function to fetch itinerary data
     const fetchItineraryData = useCallback(async () => {
-        const itineraryById = await itineraryQueries.getItineraryById(
-            id,
-            accessToken
-        );
+        const itineraryById = await itineraryQueries.getItineraryById(id);
 
         // set itinerary data
         setItinerary(itineraryById);
-    }, [id, accessToken]);
+    }, [id]);
 
     // function to update itinerary
     const updateItinerary = async () => {
         await itineraryQueries.updateItinerary(
             parseInt(id),
-            accessToken,
             isPublic,
             itinerary
         );

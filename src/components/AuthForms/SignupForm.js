@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { authQueries } from "../../api/authQueries";
@@ -16,13 +15,13 @@ function SignupForm({ showLoginForm, token }) {
     const [confirmPassword, setConfirmPassword] = useState("");
 
     // HOOKS
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     // function to handle signup
     const onSignup = async () => {
         // send verification email
         await authQueries.sendVerificationEmail(email);
+
 
         // Set user data to local storage
         localStorage.setItem(
@@ -61,7 +60,6 @@ function SignupForm({ showLoginForm, token }) {
             userData.firstName,
             userData.lastName,
             userData.phone,
-            dispatch
         );
 
         // if user has registered
@@ -71,7 +69,7 @@ function SignupForm({ showLoginForm, token }) {
             // reset all states
             resetStates();
         }
-    }, [dispatch, navigate]);
+    }, [navigate]);
 
     useEffect(() => {
         if (token) {
